@@ -1,0 +1,153 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{apacite}
+\usepackage{babel,blindtext}
+\usepackage[utf8]{inputenc}
+\hypersetup{colorlinks=true,citecolor=blue,linkcolor=blue,urlcolor=blue} 
+\usepackage{amssymb}
+\usepackage{amsmath}
+\graphicspath{{soci/}}
+\usepackage{physics}
+\makeatletter
+\setlength{\@fptop}{0pt}
+\makeatother
+
+
+\title{\textbf{Stock Market Prediction Using Deep Learning(CNN-LSTM Model)}}
+\author{Agamjot Singh\\agam.9427@gmail.com\\\textit{Mentored By:}\\ \textit{Agam}}
+\date{Jan,2023}
+
+\begin{document}
+\maketitle
+\begin{figure}[h]
+
+\centering
+
+
+
+\includegraphics[scale=0.2]{sm}
+
+
+\end{figure}
+
+
+
+ 
+Authors Of The Original Article- \cite{lu2020cnn}. 
+
+\bibliographystyle{apacite}
+\bibliography{References}
+
+\clearpage
+
+\tableofcontents
+
+\clearpage
+
+\section{Introduction}
+The Stock Market is a crucial platform for humans to trade and get equity in firms they have confidence in. For some, it serves as an additional source of income while for others it's the only source of income. The change in the trend of the stock market price has always been identified as a very important problem in the economic field. The traditional analysis method is based on economics and finance and involves \textit{fundamental and technical analysis}.
+This is a tedious method and for a living, it can involve a lot of risks.
+
+
+In recent years Machine Learning has blown up and one of its subsets- \textit{Deep Learning} has a notable use in this field. In this project, we use \textit{Convolutional Neural Network(CNN) - Long short-term memory(LSTM)} Model to predict stock prices.The accuracy of traditional methods is difficult to be convincing. On the contrary, this model is a \textit{high accuracy-high performance} model.
+
+\section{Dataset}
+\subsection{Data Collection}
+Stock Market data was provided by the mentors of the project.
+
+\subsection{Data Preprocessing}
+
+\clearpage
+\section{Understanding CNN-LSTM Model}
+\subsection{CNN-LSTM Model}
+\textbf{CNN}(\textit{Convolutional Neural Network}) helps in understanding and \textit{finding patterns and features} using convolution layer and pooling layer.\\
+\textbf{LSTM}(\textit{Long Short-Term Memory}) networks are well-suited to classifying , processing and making predictions based on time series data.\par
+According to the characteristics of CNN and LSTM, a stock forecasting model based on CNN-LSTM is established. The model structure (refer Figure \ref{fig:model}) includes input layer, one-dimensional convolution layer, pooling layer, LSTM hidden layer, and full connection layer.
+
+\begin{figure}[h]
+
+\centering
+
+
+
+\includegraphics[scale=0.4]{model}
+\caption{CNN-LSTM structure diagram.}
+\label{fig:model}
+\end{figure}
+
+\subsection{CNN}
+CNN is mainly composed of two parts: \textbf{convolution layer} and \textbf{pooling layer}. Each convolution layer contains a plurality of convolution kernels, and its calculation formula is shown in formula (\ref{eqn:1}). After the convolution operation of the convolution layer, the features of the data are extracted, but the extracted feature dimensions are very high, so in order to solve this problem and reduce the cost of training the network, a pooling layer is added after the convolution layer to reduce the feature dimension:
+\begin{equation}
+\label{eqn:1} 
+l_t=tanh(x_t * k_t+b_t)
+\end{equation}
+where $l_t$ represents the output value after convolution, $tanh$ is the activation function,  $x_t$ is the input vector, $k_t$ is the weight of the convolution kernel, and $b_t$ is the bias of the convolution kernel.
+\subsection{LSTM}
+LSTM is a network model designed to solve the longstanding problems of gradient explosion and gradient disappearance in RNN. The LSTM memory cell consists of three parts: \textbf{the forget gate, the input gate, and the output gate}, as shown in Figure \ref{fig:2}.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.4]{m}
+\caption{Architecture of LSTM memory cell.}
+\label{fig:model}
+\end{figure}
+\clearpage
+
+\section{CNN-LSTM Training and Prediction Process}
+The CNN-LSTM process of training and prediction is shown in Figure \ref{fig:3}.
+\\
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.4]{mo}
+\caption{Activity diagram of CNN-LSTM training and prediction process.}
+\label{fig:3}
+\end{figure}
+The main steps are:
+\begin{itemize}
+\item Input data: input the data required for model training.
+\item Data standardisation: to train the model better, the \textit{z-score} standardisation method is applied to standardise the input data according to the following formula: $$y_i=\frac{x_i-\bar{x}}{s},$$
+$$x_i = y_i*s+\bar{x}$$
+where $y_i$ is the standardised value, $x_i$ is the input data , $\bar{x}$ is the average of the input data and s is the standard deviation of the input data.
+\item Initialise network: initialise the weights and biases of each layer of the CNN-LSTM.
+\item CNN layer calculation: the input data are successively passed through the convolution layer and pooling layer in the CNN layer, the feature extraction of the input data is carried out, and the output value is obtained.
+\item	LSTM layer calculation: the output data of the CNN layer are calculated through the LSTM layer, and the output value is obtained.
+\item Output layer calculation: the output value of the LSTM layer is input into the full connection layer to get the output value.
+\item Calculation error: the output value calculated by the output layer is compared with the real value of this group of data, and the corresponding error is obtained.
+\item To judge whether the end condition is satisfied
+\item 	Error backpropagation: propagate the calculated error in the opposite direction, update the weight and bias of each layer, and go to step 4 to continue to train the network.
+\item Save the model
+\item Input Data
+\item Data standardisation
+\item Forecasting
+\item Data standardized restore: the output value obtained through the model of CNN-LSTM is restored to the original value.
+\item Output result: output the restored results to complete the forecasting process.
+\end{itemize}
+\section{Model Implementation}
+In order to evaluate the forecasting effect of CNN-LSTM, \textit{the mean absolute error (MAE)}, \textit{root mean square error (RMSE)}, and \textit{R-square (R2)} are used as the evaluation criteria of the methods.
+$$MAE= \frac{1}{n}\sum_{i=1}^{n}|\hat{y_i}-y_i|$$
+$$RMSE= \sqrt[2]{\frac{1}{n}\sum_{i=1}^{n}{(y_i-\hat{y_i})}^2}$$
+$$R^2=1-\frac{(\sum_{i=1}^n{(y_i-\hat{y_i})}^2)/n}{(\sum_{i=1}^n{(\bar{y_i}-t\hat{y_i})}^2)/n}$$
+The closer the value of $MAE$ and $RMSE$ to 0, of $R^2$ to 1, the smaller the error between the predicted value and the real value, the higher the forecasting accuracy.
+\section{Implementation of CNN-LSTM}
+\subsection{Parameter setting}
+The parameter setting of the CNN-LSTM for this experiment is shown in Figure \ref{fig:par}.
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.29]{para}
+%\caption{Parameter setting of CNN-LSTM.}
+\label{fig:par}
+\end{figure}
+\clearpage
+\subsection{Model Structure and Implementation}
+According to the parameter setting of CNN-LSTM network, we can know that the specific model is constructed as follows: the input training set data is a three-dimensional data vector (None, 10, 6), in which 10 is the size of the time-step and 8 is the 8 features of the input dimension. First, the data enter the one-dimensional convolution layer to further extract features and obtain a three-dimensional output vector (None, 10, 32), in which 32 is the size of the convolution layer filters. Next, the vector enters the pooling layer, and a three-dimensional output vector (None, 10, 32) is also obtained. And then, the output vector enters the LSTM layer for training, and the output data (None, 64) after training enter another layer of full connection layer to get the output value; 64 is the number of hidden units in the LSTM layer.
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.4]{mm}
+\caption{The model structure of CNN-LSTM.}
+
+\end{figure}
+
+
+\end{document}
